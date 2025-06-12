@@ -6,3 +6,4 @@ google-auth
 oauth2client
 gspread
 streamlit-authenticator
+scikit-learn
