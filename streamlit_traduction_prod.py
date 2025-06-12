@@ -8,6 +8,25 @@ from googleapiclient.discovery import build
 from openai import OpenAI
 import base64
 
+def check_password():
+    def password_entered():
+        if st.session_state["username"] in st.secrets["auth"] and \
+           st.session_state["password"] == st.secrets["auth"][st.session_state["username"]]:
+            st.session_state["password_correct"] = True
+            del st.session_state["password"]  # Ne garde pas le mot de passe en mémoire
+        else:
+            st.session_state["password_correct"] = False
+
+    if "password_correct" not in st.session_state:
+        st.text_input("Nom d'utilisateur", key="username")
+        st.text_input("Mot de passe", type="password", on_change=password_entered, key="password")
+        st.stop()
+    elif not st.session_state["password_correct"]:
+        st.error("🔒 Mot de passe incorrect")
+        st.stop()
+
+check_password()
+
 
 # === CONFIG ===
 SHEET_ID = "1HWgw3qhjGxaFE1gDFwymFHcPodt88hzXYvk1YPxLxWw"
