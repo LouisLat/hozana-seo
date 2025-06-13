@@ -279,11 +279,10 @@ def translate_text(text, target_lang, deepl_api_key):
         return ""
     url = "https://api.deepl.com/v2/translate"
     data = {
-        "auth_key": deepl_api_key,
         "text": str(text),
         "source_lang": SOURCE_LANG,
         "target_lang": target_lang,
-        "tag_handling": "html"
+        "tag_handling": "html",
         "auth_key": deepl_api_key,
     }
     try:
