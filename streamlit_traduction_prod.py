@@ -44,40 +44,6 @@ for lang_code, file_path in BIBLE_FILES.items():
     except:
         bible_data_by_lang[lang_code] = {}
 
-# === URL Mapping
-def load_url_mapping():
-    import gspread
-    from google.oauth2 import service_account
-
-    creds = service_account.Credentials.from_service_account_info(
-        dict(st.secrets["GOOGLE_CREDENTIALS_JSON"]),
-        scopes=[
-            "https://www.googleapis.com/auth/spreadsheets.readonly",
-            "https://www.googleapis.com/auth/drive"
-        ]
-    )
-    client = gspread.authorize(creds)
-    sheet = client.open_by_key("1owYRrjYnW2DKQMJ5Pk2q-zY8IY1DP1lpZagXjJCrpDM")
-    worksheet = sheet.get_worksheet(0)
-    data = worksheet.get_all_records()
-
-    mapping = {}
-    for row in data:
-        keys = {k.strip(): v.strip().rstrip("/") for k, v in row.items() if isinstance(v, str)}
-        fr_url = keys.get("Article FR", "")
-        if not fr_url:
-            continue
-        mapping[fr_url] = {
-            "FR": keys.get("Article FR", ""),
-            "EN": keys.get("Article EN", ""),
-            "ES": keys.get("Article ES", ""),
-            "PT": keys.get("Article PT", ""),
-            "IT": keys.get("Article IT", ""),
-            "PL": keys.get("Article PL", "")
-        }
-
-    return mapping
-
 # === Lecture Google Sheet
 @st.cache_data
 def get_articles_sheet():
