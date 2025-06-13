@@ -141,6 +141,8 @@ if st.button("Traduire maintenant"):
                     lang,
                     url_mapping,
                     translated_segments_cache,
+                    client,  # 
+                    bible_data_by_lang, 
                     config
                 )
                 rows.append(output_df)
