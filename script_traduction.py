@@ -18,6 +18,12 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 import streamlit as st
 
+class Config:
+    def __init__(self, openai_client, deepl_key, source_lang, google_credentials_dict):
+        self.openai_client = openai_client
+        self.DEEPL_API_KEY = deepl_key
+        self.SOURCE_LANG = source_lang
+        self.google_credentials_dict = google_credentials_dict
 
 # === CONFIG RECO COMMUNAUTÉS ===
 SHEET_ID = "1HWgw3qhjGxaFE1gDFwymFHcPodt88hzXYvk1YPxLxWw"
@@ -280,9 +286,9 @@ def translate_text(text, target_lang, config: Config):
         return ""
     url = "https://api.deepl.com/v2/translate"
     data = {
-        "auth_key": DEEPL_API_KEY,
+        "auth_key": config.DEEPL_API_KEY,
         "text": str(text),
-        "source_lang": SOURCE_LANG,
+        "source_lang": config.SOURCE_LANG,
         "target_lang": target_lang,
         "tag_handling": "html"
     }
