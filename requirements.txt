@@ -8,4 +8,5 @@ gspread
 streamlit-authenticator
 scikit-learn
 beautifulsoup4
+openpyxl
 
