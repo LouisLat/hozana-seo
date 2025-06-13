@@ -37,20 +37,27 @@ for lang_code, file_path in BIBLE_FILES.items():
 # === URL Mapping
 def load_url_mapping():
     import gspread
-    from oauth2client.service_account import ServiceAccountCredentials
-    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_name(CREDENTIALS_FILE, scope)
+    from google.oauth2 import service_account
+
+    creds = service_account.Credentials.from_service_account_info(
+        dict(st.secrets["GOOGLE_CREDENTIALS_JSON"]),
+        scopes=[
+            "https://www.googleapis.com/auth/spreadsheets.readonly",
+            "https://www.googleapis.com/auth/drive"
+        ]
+    )
     client = gspread.authorize(creds)
     sheet = client.open_by_key("1owYRrjYnW2DKQMJ5Pk2q-zY8IY1DP1lpZagXjJCrpDM")
     worksheet = sheet.get_worksheet(0)
     data = worksheet.get_all_records()
+
     mapping = {}
     for row in data:
         keys = {k.strip(): v.strip().rstrip("/") for k, v in row.items() if isinstance(v, str)}
-        en_url = keys.get("Article FR", "")
-        if not en_url:
+        fr_url = keys.get("Article FR", "")
+        if not fr_url:
             continue
-        mapping[en_url] = {
+        mapping[fr_url] = {
             "FR": keys.get("Article FR", ""),
             "EN": keys.get("Article EN", ""),
             "ES": keys.get("Article ES", ""),
@@ -58,6 +65,7 @@ def load_url_mapping():
             "IT": keys.get("Article IT", ""),
             "PL": keys.get("Article PL", "")
         }
+
     return mapping
 
 # === Lecture Google Sheet
