@@ -487,7 +487,7 @@ def resolve_translated_url(original_url, lang, url_mapping, translated_segments_
                 if key in translated_segments_cache:
                     translated_slug = translated_segments_cache[key]
                 else:
-                    translated = translate_text(seg.replace("-", " "), lang, config: Config)
+                    translated = translate_text(seg.replace("-", " "), lang, config)
                     translated = translated.replace(" ", "-")
                     translated_slug = slugify(translated)
                     translated_segments_cache[key] = translated_slug
