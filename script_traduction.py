@@ -813,7 +813,7 @@ def traduire_articles_selectionnes(df_selection, langue, url_mapping, translated
         content = replace_links_in_html(content, langue, url_mapping, translated_segments_cache, config)
         content = traiter_citations_avec_gpt(content, langue, config)
         content = remplacer_community_cards(content, langue, title, config)
-        content = reformuler_paragraphes_communautes(content, langue)
+        content = reformuler_paragraphes_communautes(content, langue, config)
         content, _ = insert_official_verses(content, bible_data_by_lang.get(langue.lower(), {}), langue.lower())
 
         translated_row = {
