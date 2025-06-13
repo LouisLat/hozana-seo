@@ -198,3 +198,16 @@ if st.button("Traduire maintenant"):
                 st.markdown(href, unsafe_allow_html=True)
 
             st.success("✅ Traduction terminée avec succès.")
+            
+            st.markdown("### 👁️ Prévisualiser les articles traduits")
+            with st.expander("Cliquez ici pour prévisualiser les rendus HTML de chaque article", expanded=False):
+                for _, row in final_df.iterrows():
+                    st.markdown(f"**🌐 URL Source :** {row.get('Complete URL', 'N/A')}")
+                    st.markdown(f"**🌍 Langue :** {row.get('Langue', 'N/A')}")
+                    st.markdown("---")
+                    if "Content HTML" in row:
+                        st.markdown(row["Content HTML"], unsafe_allow_html=True)
+                    else:
+                        st.markdown("_Aucun contenu HTML disponible pour cet article._")
+                    st.markdown("----")
+
