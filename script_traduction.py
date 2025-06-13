@@ -789,7 +789,7 @@ def traduire_articles_selectionnes(df_selection, langue, url_mapping, translated
 
         translated_url = resolve_translated_url(original_url, langue, url_mapping, translated_segments_cache)
 
-        title = translate_text(title_src, langue)
+        title = translate_text(title_src, langue, deepl_api_key)
         title = refine_with_gpt(title, "Title", langue)
 
         meta = translate_text(meta_src, langue)
