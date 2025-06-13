@@ -192,6 +192,7 @@ if st.button("Traduire maintenant"):
                     translated_segments_cache,
                     client,
                     bible_data_by_lang
+                    DEEPL_API_KEY
                 )
                 rows.append(output_df)
                 step += len(df_selection)
