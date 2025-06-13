@@ -12,8 +12,8 @@ import base64
 # === CONFIG ===
 SHEET_ID = "1HWgw3qhjGxaFE1gDFwymFHcPodt88hzXYvk1YPxLxWw"
 SHEET_RANGE = "Question 7364!A1:ZZ"
-DEEPL_API_KEY = st.secrets["DEEPL_API_KEY"]
-OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+DEEPL_API_KEY = st.secrets["api"]["DEEPL_API_KEY"]
+OPENAI_API_KEY = st.secrets["api"]["OPENAI_API_KEY"]
 GOOGLE_CREDENTIALS_DICT = dict(st.secrets["GOOGLE_CREDENTIALS_JSON"])
 client = OpenAI(api_key=OPENAI_API_KEY)
 
