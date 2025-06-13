@@ -16,6 +16,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
+import streamlit as st
 
 
 # === CONFIG RECO COMMUNAUTÉS ===
