@@ -1,4 +1,4 @@
-import pandas as pdMore actions
+import pandas as pd
 import time
 
 # Importe ici toutes tes fonctions utiles depuis ton script principal
