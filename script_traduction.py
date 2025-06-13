@@ -294,15 +294,19 @@ def translate_text(text, target_lang):
         return text
 
 def get_communities_from_sheet():
-    credentials = service_account.Credentials.from_service_account_info(GOOGLE_CREDENTIALS_DICT)
+    credentials = service_account.Credentials.from_service_account_info(
+        dict(st.secrets["GOOGLE_CREDENTIALS_JSON"]),
+        scopes=["https://www.googleapis.com/auth/spreadsheets.readonly"],
+    )
     service = build("sheets", "v4", credentials=credentials)
     result = service.spreadsheets().values().get(
-        spreadsheetId=SHEET_ID, range=SHEET_RANGE
+        spreadsheetId="1HWgw3qhjGxaFE1gDFwymFHcPodt88hzXYvk1YPxLxWw",
+        range="Question 7352!A2:D"
     ).execute()
     values = result.get("values", [])
     df = pd.DataFrame(values, columns=["Lang", "Community ID", "Name"])
     return df
-
+    
 def get_embedding(text):
     if text in embedding_cache:
         return embedding_cache[text]
