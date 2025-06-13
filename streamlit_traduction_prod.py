@@ -56,13 +56,22 @@ for lang_code, file_path in BIBLE_FILES.items():
 # === URL Mapping
 def load_url_mapping():
     import gspread
-    from oauth2client.service_account import ServiceAccountCredentials
-    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_name(CREDENTIALS_FILE, scope)
+    from google.oauth2.service_account import Credentials
+    
+        credentials_info = st.secrets["GOOGLE_CREDENTIALS_JSON"]
+        if isinstance(credentials_info, str):
+            credentials_info = json.loads(credentials_info)
+    
+        creds = Credentials.from_service_account_info(
+            credentials_info,
+            scopes=["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+    )
+
     client = gspread.authorize(creds)
     sheet = client.open_by_key("1owYRrjYnW2DKQMJ5Pk2q-zY8IY1DP1lpZagXjJCrpDM")
     worksheet = sheet.get_worksheet(0)
     data = worksheet.get_all_records()
+
     mapping = {}
     for row in data:
         keys = {k.strip(): v.strip().rstrip("/") for k, v in row.items() if isinstance(v, str)}
