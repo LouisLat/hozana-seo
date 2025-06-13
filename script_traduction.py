@@ -274,7 +274,7 @@ def slugify(text):
     text = re.sub(r'[-]+', '-', text)
     return text.lower().strip("-/")
 
-def translate_text(text, target_lang):
+def translate_text(text, target_lang, DEEPL_API_KEY=None, SOURCE_LANG="FR"):
     if not text or pd.isna(text):
         return ""
     url = "https://api.deepl.com/v2/translate"
