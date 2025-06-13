@@ -795,10 +795,10 @@ def traduire_articles_selectionnes(df_selection, langue, url_mapping, translated
         title = translate_text(title_src, langue, deepl_api_key)
         title = refine_with_gpt(title, "Title", langue)
 
-        meta = translate_text(meta_src, langue)
+        meta = translate_text(meta_src, langue, deepl_api_key)
         meta = refine_with_gpt(meta, "Meta Description", langue)
 
-        content = translate_text(content_src, langue)
+        content = translate_text(content_src, langue, deepl_api_key)
         content = replace_links_in_html(content, langue, url_mapping, translated_segments_cache)
         content = traiter_citations_avec_gpt(content, langue, client)
         content = remplacer_community_cards(content, langue, title)
