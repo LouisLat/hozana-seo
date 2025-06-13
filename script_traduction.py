@@ -294,10 +294,7 @@ def translate_text(text, target_lang):
         return text
 
 def get_communities_from_sheet():
-    credentials = service_account.Credentials.from_service_account_file(
-        "credentials.json",
-        scopes=["https://www.googleapis.com/auth/spreadsheets.readonly"],
-    )
+    credentials = service_account.Credentials.from_service_account_info(GOOGLE_CREDENTIALS_DICT)
     service = build("sheets", "v4", credentials=credentials)
     result = service.spreadsheets().values().get(
         spreadsheetId=SHEET_ID, range=SHEET_RANGE
