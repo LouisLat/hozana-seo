@@ -279,7 +279,7 @@ def translate_text(text, target_lang):
         return ""
     url = "https://api.deepl.com/v2/translate"
     data = {
-        "auth_key": DEEPL_API_KEY,
+        "auth_key": deepl_api_key,
         "text": str(text),
         "source_lang": SOURCE_LANG,
         "target_lang": target_lang,
@@ -765,7 +765,7 @@ def insert_official_verses(html: str, bible_data: dict, lang: str) -> tuple[str,
     new_html = pattern.sub(replacer, html)
     return new_html, count
 
-def traduire_articles_selectionnes(df_selection, langue, url_mapping, translated_segments_cache, client, bible_data_by_lang):
+def traduire_articles_selectionnes(df_selection, langue, url_mapping, translated_segments_cache, client, bible_data_by_lang, deepl_api_key):
     from script_traduction import (
         translate_text,
         resolve_translated_url,
