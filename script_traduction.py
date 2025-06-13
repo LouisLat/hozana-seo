@@ -438,20 +438,26 @@ def remplacer_community_cards(text, lang, title):
     return text
 
 
-def load_url_mapping_from_sheet(json_path):
-    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_name(json_path, scope)
+def load_url_mapping():
+    creds = service_account.Credentials.from_service_account_info(
+        dict(st.secrets["GOOGLE_CREDENTIALS_JSON"]),
+        scopes=[
+            "https://www.googleapis.com/auth/spreadsheets.readonly",
+            "https://www.googleapis.com/auth/drive"
+        ]
+    )
     client = gspread.authorize(creds)
     sheet = client.open_by_key("1owYRrjYnW2DKQMJ5Pk2q-zY8IY1DP1lpZagXjJCrpDM")
     worksheet = sheet.get_worksheet(0)
     data = worksheet.get_all_records()
+
     mapping = {}
     for row in data:
         keys = {k.strip(): v.strip().rstrip("/") for k, v in row.items() if isinstance(v, str)}
-        en_url = keys.get("Article FR", "")
-        if not en_url:
+        fr_url = keys.get("Article FR", "")
+        if not fr_url:
             continue
-        mapping[en_url] = {
+        mapping[fr_url] = {
             "FR": keys.get("Article FR", ""),
             "EN": keys.get("Article EN", ""),
             "ES": keys.get("Article ES", ""),
@@ -459,6 +465,7 @@ def load_url_mapping_from_sheet(json_path):
             "IT": keys.get("Article IT", ""),
             "PL": keys.get("Article PL", "")
         }
+
     return mapping
 
 def resolve_translated_url(original_url, lang, url_mapping, translated_segments_cache):
