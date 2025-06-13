@@ -496,8 +496,7 @@ def resolve_translated_url(original_url, lang, url_mapping, translated_segments_
     return ""
 
 def refine_with_gpt(text, field_name, lang, title=""):
-    global gpt_calls
-    if gpt_calls >= MAX_GPT_CALLS or not text.strip():
+    if not text.strip():
         return text
 
     if field_name.lower() == "meta description":
@@ -527,7 +526,6 @@ Langue cible : """ + lang.upper()
             messages=[{"role": "user", "content": prompt}],
             temperature=0.3
         )
-        gpt_calls += 1
         new_text = response.choices[0].message.content.strip()
         return new_text if new_text else text
     except Exception as e:
