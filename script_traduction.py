@@ -274,7 +274,7 @@ def slugify(text):
     text = re.sub(r'[-]+', '-', text)
     return text.lower().strip("-/")
 
-def translate_text(text, target_lang):
+def translate_text(text, target_lang, deepl_api_key):
     if not text or pd.isna(text):
         return ""
     url = "https://api.deepl.com/v2/translate"
@@ -284,6 +284,7 @@ def translate_text(text, target_lang):
         "source_lang": SOURCE_LANG,
         "target_lang": target_lang,
         "tag_handling": "html"
+        "auth_key": deepl_api_key,
     }
     try:
         response = requests.post(url, data=data, timeout=30)
