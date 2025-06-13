@@ -317,7 +317,7 @@ def get_communities_from_sheet():
 def get_embedding(text, config: Config):
     if text in embedding_cache:
         return embedding_cache[text]
-    response = client.embeddings.create(
+    response = config.openai_client.embeddings.create(
         model=OPENAI_EMBED_MODEL,
         input=[text]
     )
@@ -327,7 +327,7 @@ def get_embedding(text, config: Config):
         json.dump(embedding_cache, f)
     return embedding
 
-def evaluer_accroche_chatgpt(titre):
+def evaluer_accroche_chatgpt(titre, config: Config):
     try:
         prompt = f"""
 Tu es un expert en marketing chrétien.
@@ -351,7 +351,7 @@ Titre : « {titre} »
 
 Réponds uniquement par un chiffre entre 1 et 5, sans commentaire.
 """
-        response = client.chat.completions.create(
+        response = config.openai_client.chat.completions.create(
             model="gpt-4-0125-preview",
             messages=[{"role": "user", "content": prompt}],
             temperature=0
@@ -373,7 +373,7 @@ def suggest_ctas(article_title, lang="fr", config=None):
     similarities = cosine_similarity([article_embedding], embeddings_matrix)[0]
     df["similarity"] = similarities
     top_df = df.sort_values("similarity", ascending=False).head(TOP_SEMANTIC).copy()
-    top_df["accroche_score"] = top_df["Name"].apply(evaluer_accroche_chatgpt)
+    top_df["accroche_score"] = top_df["Name"].apply(lambda x: evaluer_accroche_chatgpt(x, config))
     top_df["accroche_score_norm"] = top_df["accroche_score"] / 5
     top_df["score_total"] = 0.8 * top_df["similarity"] + 0.2 * top_df["accroche_score_norm"]
     final_df = top_df.sort_values("score_total", ascending=False).head(TOP_FINAL)
@@ -398,7 +398,7 @@ def suggest_ctas(article_title, lang="fr", config=None):
 
     return final_df.sort_values("score_total", ascending=False).head(TOP_FINAL)
 
-def remplacer_community_cards(text, lang, title):
+def remplacer_community_cards(text, lang, title, config):
     supported_langs = ["FR", "EN", "ES", "PT"]
     lang = lang.upper()
 
