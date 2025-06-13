@@ -7,10 +7,20 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from openai import OpenAI
 import base64
+from script_traduction import Config, traduire_articles_selectionnes, load_url_mapping
+from openai import OpenAI
 
 
 # === CONFIG ===
 SHEET_ID = "1HWgw3qhjGxaFE1gDFwymFHcPodt88hzXYvk1YPxLxWw"
+GOOGLE_CREDENTIALS_DICT = dict(st.secrets["GOOGLE_CREDENTIALS_JSON"])
+
+config = Config(
+    openai_client=OpenAI(api_key=st.secrets["api"]["OPENAI_API_KEY"]),
+    deepl_key=st.secrets["api"]["DEEPL_API_KEY"],
+    source_lang="FR",
+    google_credentials_dict=GOOGLE_CREDENTIALS_DICT
+)
 SHEET_RANGE = "Question 7364!A1:ZZ"
 DEEPL_API_KEY = st.secrets["api"]["DEEPL_API_KEY"]
 OPENAI_API_KEY = st.secrets["api"]["OPENAI_API_KEY"]
@@ -151,7 +161,7 @@ if st.button("Traduire maintenant"):
     else:
         with st.spinner("⏳ Traduction en cours, veuillez patienter..."):
             df_selection = df[df["Complete URL"].isin(selected_urls)].copy()
-            url_mapping = load_url_mapping()
+            url_mapping = load_url_mapping(config)
             translated_segments_cache = {}
             total = len(selected_langs) * len(df_selection)
             progress = st.empty()
@@ -165,10 +175,7 @@ if st.button("Traduire maintenant"):
                     lang,
                     url_mapping,
                     translated_segments_cache,
-                    client,
-                    bible_data_by_lang,
-                    DEEPL_API_KEY=DEEPL_API_KEY,
-                    SOURCE_LANG="FR"
+                    config
                 )
                 rows.append(output_df)
                 step += len(df_selection)
