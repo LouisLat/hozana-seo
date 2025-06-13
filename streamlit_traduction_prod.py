@@ -63,13 +63,9 @@ def load_url_mapping():
 # === Lecture Google Sheet
 @st.cache_data
 def get_articles_sheet():
-    credentials_info = st.secrets["GOOGLE_CREDENTIALS_JSON"]
-    if isinstance(credentials_info, str):
-        credentials_info = json.loads(credentials_info)
-    
-    credentials = service_account.Credentials.from_service_account_info(
-        credentials_info,
-        scopes=["https://www.googleapis.com/auth/spreadsheets.readonly"]
+    credentials = service_account.Credentials.from_service_account_file(
+        CREDENTIALS_FILE,
+        scopes=["https://www.googleapis.com/auth/spreadsheets.readonly"],
     )
     service = build("sheets", "v4", credentials=credentials)
     result = service.spreadsheets().values().get(spreadsheetId=SHEET_ID, range=SHEET_RANGE).execute()
