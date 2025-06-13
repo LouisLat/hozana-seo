@@ -445,9 +445,12 @@ def remplacer_community_cards(text, lang, title):
     return text
 
 
-def load_url_mapping():
+def load_url_mapping(config: Config):
+    import gspread
+    from google.oauth2 import service_account
+
     creds = service_account.Credentials.from_service_account_info(
-        dict(st.secrets["GOOGLE_CREDENTIALS_JSON"]),
+        config.google_credentials_dict,
         scopes=[
             "https://www.googleapis.com/auth/spreadsheets.readonly",
             "https://www.googleapis.com/auth/drive"
