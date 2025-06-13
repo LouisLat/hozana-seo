@@ -468,6 +468,7 @@ def load_url_mapping():
 
     return mapping
 
+
 def resolve_translated_url(original_url, lang, url_mapping, translated_segments_cache):
     base_url = "https://hozana.org"
     normalized_url = original_url.strip().rstrip("/")
