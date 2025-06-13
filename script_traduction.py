@@ -363,12 +363,12 @@ Réponds uniquement par un chiffre entre 1 et 5, sans commentaire.
         print(f"Erreur GPT : {e}")
         return 2.5
 
-def suggest_ctas(article_title, lang="fr"):
+def suggest_ctas(article_title, lang="fr", config=None):
     df = get_communities_from_sheet()
     df = df[df["Lang"] == lang].copy()
-    df["embedding"] = df["Name"].apply(get_embedding)
+    df["embedding"] = df["Name"].apply(lambda x: get_embedding(x, config))
     df["embedding_vec"] = df["embedding"].apply(np.array)
-    article_embedding = get_embedding(article_title)
+    article_embedding = get_embedding(article_title, config)
     embeddings_matrix = np.vstack(df["embedding_vec"].values)
     similarities = cosine_similarity([article_embedding], embeddings_matrix)[0]
     df["similarity"] = similarities
@@ -414,7 +414,7 @@ def remplacer_community_cards(text, lang, title):
         return pattern.sub('', text)
 
     print(f"\n🔎 Remplacement des community cards pour la langue : {lang} | Titre : {title}")
-    top_communities = suggest_ctas(title, lang.lower())
+    top_communities = suggest_ctas(title, lang.lower(), config)
 
     if top_communities.empty:
         print("❌ Aucune communauté suggérée.")
@@ -598,7 +598,7 @@ def replace_links_in_html(content, lang, url_mapping, translated_segments_cache,
                 return anchor_text
 
             print(f"\n🧩 Lien vers communauté détecté : {full_url}")
-            top_communities = suggest_ctas(anchor_text, lang.lower())
+            top_communities = suggest_ctas(anchor_text, lang.lower(), config)
 
             if not top_communities.empty and top_communities["score_total"].max() >= 0.6:
                 best = top_communities.iloc[0]
@@ -812,7 +812,7 @@ def traduire_articles_selectionnes(df_selection, langue, url_mapping, translated
         content = translate_text(content_src, langue, config)
         content = replace_links_in_html(content, langue, url_mapping, translated_segments_cache, config)
         content = traiter_citations_avec_gpt(content, langue, config)
-        content = remplacer_community_cards(content, langue, title)
+        content = remplacer_community_cards(content, langue, title, config)
         content = reformuler_paragraphes_communautes(content, langue)
         content, _ = insert_official_verses(content, bible_data_by_lang.get(langue.lower(), {}), langue.lower())
 
