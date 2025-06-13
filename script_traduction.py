@@ -609,7 +609,7 @@ def replace_links_in_html(content, lang, url_mapping, translated_segments_cache,
                 print("❌ Aucune correspondance suffisamment proche — lien supprimé.")
                 return full_match.replace(f'<a href="{href}">{anchor_text}</a>', anchor_text)
 
-        translated_url = resolve_translated_url(full_url, lang, url_mapping, translated_segments_cache, config: Config)
+        translated_url = resolve_translated_url(full_url, lang, url_mapping, translated_segments_cache, config)
         return f'<a href="{translated_url}">{anchor_text}</a>' if translated_url else anchor_text
 
     return re.sub(r'<a\s+href="([^"]+)">(.+?)</a>', replace_href, content)
