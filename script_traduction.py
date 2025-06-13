@@ -25,6 +25,7 @@ OPENAI_EMBED_MODEL = "text-embedding-3-small"
 TOP_SEMANTIC = 20
 TOP_FINAL = 10
 EMBED_CACHE_FILE = "embedding_cache.json"
+SOURCE_LANG = "FR"
 
 if os.path.exists(EMBED_CACHE_FILE):
     with open(EMBED_CACHE_FILE, "r") as f:
