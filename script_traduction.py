@@ -792,17 +792,17 @@ def traduire_articles_selectionnes(df_selection, langue, url_mapping, translated
         if not original_url:
             continue
 
-        translated_url = resolve_translated_url(original_url, langue, url_mapping, translated_segments_cache, config: Config):
+        translated_url = resolve_translated_url(original_url, langue, url_mapping, translated_segments_cache, config: Config)
 
-        title = translate_text(title_src, langue, config: Config):
+        title = translate_text(title_src, langue, config: Config)
         title = refine_with_gpt(title, "Title", langue)
 
-        meta = translate_text(meta_src, langue, config: Config):
+        meta = translate_text(meta_src, langue, config: Config)
         meta = refine_with_gpt(meta, "Meta Description", langue)
 
         content = translate_text(content_src, langue, config: Config):
-        content = replace_links_in_html(content, langue, url_mapping, translated_segments_cache, config: Config):
-        content = traiter_citations_avec_gpt(content, langue, config: Config):
+        content = replace_links_in_html(content, langue, url_mapping, translated_segments_cache, config: Config)
+        content = traiter_citations_avec_gpt(content, langue, config: Config)
         content = remplacer_community_cards(content, langue, title)
         content = reformuler_paragraphes_communautes(content, langue)
         content, _ = insert_official_verses(content, bible_data_by_lang.get(langue.lower(), {}), langue.lower())
