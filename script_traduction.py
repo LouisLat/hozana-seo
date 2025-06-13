@@ -26,6 +26,8 @@ TOP_SEMANTIC = 20
 TOP_FINAL = 10
 EMBED_CACHE_FILE = "embedding_cache.json"
 SOURCE_LANG = "FR"
+MAX_GPT_CALLS = 1000  # ou tout autre nombre limite de requêtes GPT
+gpt_calls = 0
 
 if os.path.exists(EMBED_CACHE_FILE):
     with open(EMBED_CACHE_FILE, "r") as f:
