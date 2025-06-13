@@ -469,7 +469,7 @@ def load_url_mapping():
     return mapping
 
 
-def resolve_translated_url(original_url, lang, url_mapping, translated_segments_cache):
+def resolve_translated_url(original_url, lang, url_mapping, translated_segments_cache, DEEPL_API_KEY=None, SOURCE_LANG="FR"):
     base_url = "https://hozana.org"
     normalized_url = original_url.strip().rstrip("/")
     relative_path = normalized_url.replace(base_url, "")
@@ -568,7 +568,7 @@ Bloc HTML original :
         return html_bloc
 
 
-def replace_links_in_html(content, lang, url_mapping, translated_segments_cache):
+def replace_links_in_html(content, lang, url_mapping, translated_segments_cache, DEEPL_API_KEY=None, SOURCE_LANG="FR"):
     def replace_href(match):
         href = match.group(1)
         anchor_text = match.group(2)
@@ -579,14 +579,13 @@ def replace_links_in_html(content, lang, url_mapping, translated_segments_cache)
         elif href.startswith("http"):
             full_url = href
         else:
-            return full_match  # lien incomplet → inchangé
+            return full_match
 
-        # === Cas spécial : lien vers communauté ===
         if "/communaute" in full_url or "/community" in full_url:
             supported_langs = ["fr", "en", "es", "pt"]
             if lang.lower() not in supported_langs:
                 print(f"🌍 Langue non supportée pour communauté ({lang}) → lien supprimé.")
-                return anchor_text  # texte conservé, lien retiré
+                return anchor_text
 
             print(f"\n🧩 Lien vers communauté détecté : {full_url}")
             top_communities = suggest_ctas(anchor_text, lang.lower())
@@ -609,11 +608,9 @@ def replace_links_in_html(content, lang, url_mapping, translated_segments_cache)
                 print("❌ Aucune correspondance suffisamment proche — lien supprimé.")
                 return full_match.replace(f'<a href="{href}">{anchor_text}</a>', anchor_text)
 
-        # === Cas général : autres liens ===
-        translated_url = resolve_translated_url(full_url, lang, url_mapping, translated_segments_cache)
+        translated_url = resolve_translated_url(full_url, lang, url_mapping, translated_segments_cache, DEEPL_API_KEY, SOURCE_LANG)
         return f'<a href="{translated_url}">{anchor_text}</a>' if translated_url else anchor_text
 
-    # Expression régulière : capte tous les liens <a href="...">...</a>
     return re.sub(r'<a\s+href="([^"]+)">(.+?)</a>', replace_href, content)
 
 def traiter_citations_avec_gpt(content, lang, client):
