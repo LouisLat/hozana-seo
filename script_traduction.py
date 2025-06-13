@@ -486,7 +486,7 @@ def resolve_translated_url(original_url, lang, url_mapping, translated_segments_
                 if key in translated_segments_cache:
                     translated_slug = translated_segments_cache[key]
                 else:
-                    translated = translate_text(seg.replace("-", " "), lang)
+                    translated = translate_text(seg.replace("-", " "), lang, DEEPL_API_KEY=DEEPL_API_KEY, SOURCE_LANG=SOURCE_LANG)
                     translated = translated.replace(" ", "-")
                     translated_slug = slugify(translated)
                     translated_segments_cache[key] = translated_slug
@@ -774,7 +774,7 @@ def insert_official_verses(html: str, bible_data: dict, lang: str) -> tuple[str,
     new_html = pattern.sub(replacer, html)
     return new_html, count
 
-def traduire_articles_selectionnes(df_selection, langue, url_mapping, translated_segments_cache, client, bible_data_by_lang):
+def traduire_articles_selectionnes(df_selection, langue, url_mapping, translated_segments_cache, client, bible_data_by_lang, DEEPL_API_KEY=None, SOURCE_LANG="FR"):
     from script_traduction import (
         translate_text,
         resolve_translated_url,
@@ -798,13 +798,13 @@ def traduire_articles_selectionnes(df_selection, langue, url_mapping, translated
 
         translated_url = resolve_translated_url(original_url, langue, url_mapping, translated_segments_cache)
 
-        title = translate_text(title_src, langue)
+        title = translate_text(title_src, langue, DEEPL_API_KEY=DEEPL_API_KEY, SOURCE_LANG=SOURCE_LANG)
         title = refine_with_gpt(title, "Title", langue)
 
-        meta = translate_text(meta_src, langue)
+        meta = translate_text(meta_src, langue, DEEPL_API_KEY=DEEPL_API_KEY, SOURCE_LANG=SOURCE_LANG)
         meta = refine_with_gpt(meta, "Meta Description", langue)
 
-        content = translate_text(content_src, langue)
+        content = translate_text(content_src, langue, DEEPL_API_KEY=DEEPL_API_KEY, SOURCE_LANG=SOURCE_LANG)
         content = replace_links_in_html(content, langue, url_mapping, translated_segments_cache)
         content = traiter_citations_avec_gpt(content, langue, client)
         content = remplacer_community_cards(content, langue, title)
