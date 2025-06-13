@@ -57,14 +57,14 @@ for lang_code, file_path in BIBLE_FILES.items():
 def load_url_mapping():
     import gspread
     from google.oauth2.service_account import Credentials
-    
-        credentials_info = st.secrets["GOOGLE_CREDENTIALS_JSON"]
-        if isinstance(credentials_info, str):
-            credentials_info = json.loads(credentials_info)
-    
-        creds = Credentials.from_service_account_info(
-            credentials_info,
-            scopes=["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
+
+    credentials_info = st.secrets["GOOGLE_CREDENTIALS_JSON"]
+    if isinstance(credentials_info, str):
+        credentials_info = json.loads(credentials_info)
+
+    creds = Credentials.from_service_account_info(
+        credentials_info,
+        scopes=["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
     )
 
     client = gspread.authorize(creds)
@@ -87,6 +87,7 @@ def load_url_mapping():
             "PL": keys.get("Article PL", "")
         }
     return mapping
+
 
 # === Lecture Google Sheet
 @st.cache_data
