@@ -59,5 +59,5 @@ modules = {
 for label, page_script in modules.items():
     with st.container():
         st.markdown(f'<div class="tool-card"><strong>{label}</strong><br><br>', unsafe_allow_html=True)
-        st.page_link(f"pages/{page_script}.py", label="🚀 Ouvrir ce module", icon="arrow-right-circle")
+        st.page_link(f"pages/{page_script}.py", label="🚀 Ouvrir ce module", icon="🚀")
         st.markdown('</div>', unsafe_allow_html=True)
