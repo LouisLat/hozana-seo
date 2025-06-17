@@ -10,8 +10,53 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-st.set_page_config(page_title="Publication Admin Hozana", layout="centered")
-st.title("📝 Publication automatique d'articles Hozana")
+# --- Config page ---
+st.set_page_config(page_title="Publication Admin Hozana", layout="wide")
+
+# --- Design harmonisé ---
+st.markdown("""
+    <style>
+        html, body {
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .block-container {
+            padding-top: 2rem;
+        }
+        .title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .tool-card {
+            padding: 1.25rem;
+            border-radius: 1rem;
+            background-color: #f9f9f9;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+            margin-bottom: 1.5rem;
+        }
+        .stButton>button {
+            width: 100%;
+            padding: 0.75rem;
+            font-weight: bold;
+            font-size: 1rem;
+            color: white;
+            background-color: #3366cc;
+            border-radius: 0.5rem;
+            border: none;
+        }
+        .stButton>button:hover {
+            background-color: #254e9b;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+st.markdown('<div class="title">Publication automatique d\'articles Hozana</div>', unsafe_allow_html=True)
 
 # Variables globales
 driver = None
