@@ -47,7 +47,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Titre
-st.markdown('<div class="title">Outils Hozana</div>', unsafe_allow_html=True)
+st.markdown('<div class="title">Outils SEO</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">Bienvenue sur la plateforme interne des outils Hozana. Choisissez un module à ouvrir :</div>', unsafe_allow_html=True)
 
 # Dictionnaire des modules
@@ -60,7 +60,6 @@ modules = {
 # Interface
 for label, page_script in modules.items():
     with st.container():
-        st.markdown(f'<div class="tool-card"><strong>{label}</strong><br><br>', unsafe_allow_html=True)
-        if st.button(f"Ouvrir le module : {label}", key=label):
+        if st.button(f"{label}", key=label):
             st.switch_page(f"pages/{page_script}.py")
         st.markdown('</div>', unsafe_allow_html=True)
