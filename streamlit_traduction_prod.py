@@ -23,12 +23,7 @@ st.markdown("""
             color: #666;
             margin-bottom: 2rem;
         }
-        .tool-card {
-            padding: 1.5rem;
-            border-radius: 1rem;
-            background-color: #f00020;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-            margin-bottom: 1.25rem;
+
         }
         .stButton>button {
             width: 100%;
@@ -41,7 +36,8 @@ st.markdown("""
             border: none;
         }
         .stButton>button:hover {
-            background-color: #3366cc;
+            color: white;
+            background-color: #f00020;
         }
     </style>
 """, unsafe_allow_html=True)
