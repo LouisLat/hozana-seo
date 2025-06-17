@@ -9,6 +9,5 @@ streamlit-authenticator
 scikit-learn
 beautifulsoup4
 openpyxl
-streamlit-extras
 streamlit-pages
 
