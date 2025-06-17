@@ -26,7 +26,7 @@ st.markdown("""
         .tool-card {
             padding: 1.5rem;
             border-radius: 1rem;
-            background-color: #f4f4f4;
+            background-color: #f00020;
             box-shadow: 0 2px 6px rgba(0,0,0,0.05);
             margin-bottom: 1.25rem;
         }
@@ -36,7 +36,7 @@ st.markdown("""
             font-weight: 600;
             font-size: 1rem;
             color: white;
-            background-color: #3366cc;
+            background-color: #f00020;
             border-radius: 0.5rem;
             border: none;
         }
