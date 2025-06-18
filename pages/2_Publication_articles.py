@@ -10,6 +10,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+# Vérifie que l'utilisateur est authentifié
+if "authenticated" not in st.session_state or not st.session_state.authenticated:
+    st.error("🔐 Accès refusé. Veuillez vous connecter depuis la page d'accueil.")
+    st.stop()
+
 # --- Config page ---
 st.set_page_config(page_title="Publication Admin Hozana", layout="wide")
 
