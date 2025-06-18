@@ -4,11 +4,12 @@ import os
 # Configuration de la page
 st.set_page_config(page_title="Accueil Hozana Tools", layout="wide")
 
-# --- AUTHENTIFICATION ---
+# Authentification globale
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
 if not st.session_state.authenticated:
+    st.title("🔒 Accès restreint")
     st.markdown("Veuillez vous identifier pour accéder aux outils Hozana.")
 
     with st.form("login_form"):
@@ -20,12 +21,12 @@ if not st.session_state.authenticated:
             credentials = st.secrets["auth"]
             if email in credentials and credentials[email] == password:
                 st.session_state.authenticated = True
+                st.session_state.user_email = email
                 st.success("Connexion réussie. Chargement de la page...")
                 st.experimental_rerun()
             else:
                 st.error("Email ou mot de passe incorrect.")
     st.stop()
-
 # Style harmonisé
 st.markdown("""
     <style>
