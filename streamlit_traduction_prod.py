@@ -9,7 +9,6 @@ if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
 if not st.session_state.authenticated:
-    st.title("🔒 Accès restreint")
     st.markdown("Veuillez vous identifier pour accéder aux outils Hozana.")
 
     with st.form("login_form"):
