@@ -10,6 +10,10 @@ import base64
 from script_traduction import Config, traduire_articles_selectionnes, load_url_mapping
 from openai import OpenAI
 
+# Vérifie que l'utilisateur est authentifié
+if "authenticated" not in st.session_state or not st.session_state.authenticated:
+    st.error("🔐 Accès refusé. Veuillez vous connecter depuis la page d'accueil.")
+    st.stop()
 
 # === CONFIG ===
 SHEET_ID = "1HWgw3qhjGxaFE1gDFwymFHcPodt88hzXYvk1YPxLxWw"
