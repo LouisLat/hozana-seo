@@ -228,19 +228,11 @@ if uploaded_file:
     st.success("Fichier chargé avec succès.")
 
 if st.button("🔐 Connexion Admin (ouvrir le navigateur)"):
-    from selenium.webdriver.chrome.service import Service
-    from selenium.webdriver.chrome.options import Options
-
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")  # ← mode sans interface graphique
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-
-    driver = webdriver.Chrome(service=Service(), options=chrome_options)
+    driver = webdriver.Chrome()
     driver.get("https://admin.hozana.org/login")
     st.session_state["driver"] = driver
     st.info("Connectez-vous dans le navigateur, puis revenez ici.")
-
+    
     if "driver" in st.session_state and st.button("🚀 Lancer la publication"):
         with st.spinner("Publication en cours..."):
             driver = st.session_state["driver"]
