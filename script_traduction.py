@@ -804,7 +804,6 @@ def traduire_articles_selectionnes(df_selection, langue, url_mapping, translated
         translated_url = resolve_translated_url(original_url, langue, url_mapping, translated_segments_cache, config)
 
         title = translate_text(title_src, langue, config)
-        title = refine_with_gpt(title, "Title", langue)
 
         meta = translate_text(meta_src, langue, config)
         meta = refine_with_gpt(meta, "Meta Description", langue)
