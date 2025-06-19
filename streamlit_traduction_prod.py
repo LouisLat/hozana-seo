@@ -23,7 +23,7 @@ if not st.session_state.authenticated:
                 st.session_state.authenticated = True
                 st.session_state.user_email = email
                 st.success("Connexion réussie. Chargement de la page...")
-                st.experimental_rerun()
+                st.rerun()
             else:
                 st.error("Email ou mot de passe incorrect.")
     st.stop()
